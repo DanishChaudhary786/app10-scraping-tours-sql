@@ -1,3 +1,5 @@
+import time
+
 import requests
 import selectorlib
 import smtplib,ssl
@@ -46,9 +48,11 @@ def read_data(extracted):
 
 
 if __name__ == "__main__":
-    extracted = extract(scrape(URL))
-    print(extracted)
-    if extracted.lower() != "no upcoming tours":
-        if not extracted in read_data(extracted):
-            store(extracted)
-            send_email(message="Hey, new event was found")
+    while True:
+        extracted = extract(scrape(URL))
+        print(extracted)
+        if extracted.lower() != "no upcoming tours":
+            if not extracted in read_data(extracted):
+                store(extracted)
+                send_email(message="Hey, new event was found")
+        time.sleep(3)
